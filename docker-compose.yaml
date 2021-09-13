@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   server:
-    image: rpiserver
+    image: 7f20f2085350
     build: ./rpiserver
     ports:
       - 80:8080
