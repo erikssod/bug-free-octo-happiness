@@ -6,8 +6,8 @@ from time import sleep
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 BEDINFO = {'bed1n2':{'pin':19,'is_open':False},
-          {'bed3n4':{'pin':20,'is_open':False},
-          {'spikes':{'pin':21,'is_open':False}}
+           'bed3n4':{'pin':20,'is_open':False},
+           'spikes':{'pin':21,'is_open':False}}
 
 class Valve(BaseModel):
     bedinfo: dict = BEDINFO
@@ -15,7 +15,7 @@ class Valve(BaseModel):
     def init(self):
         for key in self.bedinfo:
             pin = self.bedinfo[key]['pin']
-             GPIO.setup(pin, GPIO.OUT)
+            GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH) # Frivolous startup blink
             GPIO.output(pin, GPIO.LOW)  # -""-
         return self
