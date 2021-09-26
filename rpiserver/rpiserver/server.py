@@ -84,5 +84,5 @@ def timeOne(id:str, sec:int):
 
 @valve_app.get("/valves/timeAll", response_model=Valve)
 def timeAll(bed1n2:int, bed3n4:int, spikes:int):
-    valve.timeAll(bed1n2, bed3n4m spikes)
+    valve.timeAll(bed1n2, bed3n4, spikes)
     return valve
