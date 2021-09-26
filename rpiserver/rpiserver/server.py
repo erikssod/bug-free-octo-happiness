@@ -58,10 +58,18 @@ class Valve(BaseModel):
         elif sec < MIN: return MIN
         return sec
 
+    def abort(self):
+        maxTime = MAX * len(self.bedinfo.items())
+        while maxTime > 0:
+            for key in self.bedinfo:
+                self.close(key)
+            maxTime-=1
+            time.sleep(1)
+
 valve = Valve().init()
 valve_app = FastAPI()
 
-#@valve_app.on_event("shutdown")
+@valve_app.on_event("shutdown")
 #def close_valves():
 #    valve.close(19)
 #    valve.close(20)
