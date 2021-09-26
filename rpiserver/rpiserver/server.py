@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import RPi.GPIO as GPIO
-from time import sleep
+import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 BEDINFO = {'bed1n2':{'pin':19,'is_open':False},
            'bed3n4':{'pin':20,'is_open':False},
            'spikes':{'pin':21,'is_open':False}}
+MIN, MAX = 0, 10
 
 class Valve(BaseModel):
     bedinfo: dict = BEDINFO
@@ -36,10 +37,26 @@ class Valve(BaseModel):
         except KeyError:
             pass
 
-    def timer(self, bed:str, sec:int):
-        self.open(bed)
-        time.sleep(sec)
-        self.close(bed)
+    def timeOne(self, bed:str, sec:int):
+        if sec > 0:
+            self.open(bed)
+            time.sleep(sec)
+            self.close(bed)
+    
+    def timeAll(self, *args):
+        lst = []
+        for sec in args:
+            lst.append(self._checktime(sec))
+        lst.reverse()
+        for key in self.bedinfo:
+            sec = lst.pop()
+            self.timeOne(key, sec)
+    
+    @staticmethod
+    def _checktime(sec:int):
+        if   sec > MAX: return MAX
+        elif sec < MIN: return MIN
+        return sec
 
 valve = Valve().init()
 valve_app = FastAPI()
@@ -60,7 +77,12 @@ def close_valve(id:str):
     valve.close(id)
     return valve
 
-@valve_app.get("/valves/timer", response_model=Valve)
-def close_valve(id:str, sec:int):
-    valve.timer(id, sec)
+@valve_app.get("/valves/timeOne", response_model=Valve)
+def timeOne(id:str, sec:int):
+    valve.timeOne(id, sec)
+    return valve
+
+@valve_app.get("/valves/timeAll", response_model=Valve)
+def timeAll(bed1n2:int, bed3n4:int, spikes:int):
+    valve.timeAll(bed1n2, bed3n4m spikes)
     return valve
