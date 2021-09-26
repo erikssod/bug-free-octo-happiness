@@ -70,10 +70,9 @@ valve = Valve().init()
 valve_app = FastAPI()
 
 @valve_app.on_event("shutdown")
-#def close_valves():
-#    valve.close(19)
-#    valve.close(20)
-#    valve.close(21)
+def shutdown_event():
+    for key in valve.bedinfo:
+        valve.close(key)
 
 @valve_app.get("/valves/open", response_model=Valve)
 def open_valve(id:str):
