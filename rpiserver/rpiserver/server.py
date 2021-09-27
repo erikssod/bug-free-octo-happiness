@@ -107,5 +107,5 @@ def abort():
 
 @valve_app.get("/valves/reset", response_model=Valve)
 def reset():
-    Valve.reset()
+    valve.reset()
     return valve
