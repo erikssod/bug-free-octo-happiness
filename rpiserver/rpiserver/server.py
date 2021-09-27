@@ -9,7 +9,7 @@ BEDINFO = {'valves':{
                 'bed1n2':{'pin':19,'is_open':False},
                 'bed3n4':{'pin':20,'is_open':False},
                 'spikes':{'pin':21,'is_open':False}},
-           'spikes':{
+           'state':{
                 'abort':False}}
 MIN, MAX = 0, 10
 
