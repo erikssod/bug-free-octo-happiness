@@ -103,9 +103,9 @@ def timeAll(bed1n2:int, bed3n4:int, spikes:int):
 @valve_app.get("/valves/abort", response_model=Valve)
 def abort():
     valve.abort()
-    return Valve
+    return valve
 
 @valve_app.get("/valves/reset", response_model=Valve)
 def reset():
     Valve.reset()
-    return Valve
+    return valve
