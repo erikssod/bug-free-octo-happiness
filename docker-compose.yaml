@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   server:
-    image: 7f20f2085350
+    image: bug-free-octo-happiness:latest
     build: ./rpiserver
     ports:
       - 80:8080
